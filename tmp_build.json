@@ -1,0 +1,53 @@
+- Fetching the build…
+✔ Found a matching build for the project @seungwon0103/pub-diary
+{
+  "id": "f83cbed6-bdfe-4dcc-99d5-be28a62399c8",
+  "status": "ERRORED",
+  "platform": "ANDROID",
+  "error": {
+    "errorCode": "EAS_BUILD_UNKNOWN_GRADLE_ERROR",
+    "message": "Gradle build failed with unknown error. See logs for the \"Run gradlew\" phase for more information."
+  },
+  "artifacts": {},
+  "fingerprint": {
+    "id": "019d1e95-c009-7af3-8d81-554945d5b662",
+    "hash": "0af2b0d50415947db785a6364e77c2515672d946"
+  },
+  "initiatingActor": {
+    "id": "93b034d7-c94b-4650-b08d-665f52d10a15",
+    "displayName": "seungwon0103"
+  },
+  "logFiles": [
+    "https://job-logs.eascdn.net/production/f83cbed6-bdfe-4dcc-99d5-be28a62399c8/1774334868168-f1496cbb-85eb-4296-aa3e-1e1b61881736.txt?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=www-production%40exponentjs.iam.gserviceaccount.com%2F20260324%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20260324T065151Z&X-Goog-Expires=900&X-Goog-SignedHeaders=host&X-Goog-Signature=cb484b46039981889a84c6416c993136dfb050367fda03c88c4bb9cc7b390ac9b2ca9a0c91e85a14630af418f48154b7f8d2cfb35ddc3ce92babbddffca52c8877505e83114ce41c26bdc0aa5bb85a234f7f56bc55916ecd42642e334b53c46a21774a49599393994b3e26589753beacfd03b697ce4af8a84eb2925ae7c3f2098922276504b498b4a69c5d2b9e70a15de625013ed28fa62edafc882fc9e090a44537274cfeebb0c4c9873919ea209bcfe5b5192fe6978395b58648be2b14c9269c7eaacf0adb415e5241395018614b528d67b247c343c14b45fcf46f0d3579a2237d594586393f171e2923bcafc427aec01cc172e8f23174fb4ee900090172d7",
+    "https://job-logs.eascdn.net/production/f83cbed6-bdfe-4dcc-99d5-be28a62399c8/1774334869001-8672f8df-a353-48d2-a13a-854d310d7cf4.txt?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=www-production%40exponentjs.iam.gserviceaccount.com%2F20260324%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20260324T065151Z&X-Goog-Expires=900&X-Goog-SignedHeaders=host&X-Goog-Signature=1078079abe84576ec8141ac5fb5d00b1615dfa9441769cfd796f4841c49e8cba247b839538958c897a6fa1c175bd65689aa06b8b3cd7108dc86ea9b55a3b5b33c5b5e1c098a2eceded729ae25846175f9b7b7e96c7d20996b82dcf569eb108a4d320aacb400d57ddcc44d0c0ceeb7e0d98c1617b37299c4d0f85393107a060a945077afccf8f075e1c7fd27e6f718ae05ee77adb4c8d02bbe111bdd00bb2bf2c82f154142dbc0f05a77fc6c45b4f04791dc4a701105b6a7262bcdc8356a638f53deb0230633f0438b9d0e3498f879359fc4f2f7c4ddbb15b7a01e14489b8c0a15c181933bfc4bc02e02e917f1b4d6f0bf20d6583b5054bc8137915afcab176a9",
+    "https://job-logs.eascdn.net/production/f83cbed6-bdfe-4dcc-99d5-be28a62399c8/1774334869283-70074154-a2a4-40d3-9345-846d3f9f34a0.txt?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=www-production%40exponentjs.iam.gserviceaccount.com%2F20260324%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20260324T065151Z&X-Goog-Expires=900&X-Goog-SignedHeaders=host&X-Goog-Signature=2e9cce9eb5c786422c6558800574374540918d9227399267f4141f4e8d037d0c85c5e6315685c439136b6417ee132903a68e5d57c72ffab3b4b855386bed4139d0363f3674264a3565c238064b31cc70b9a8cfca5dbfe39089c0eb771b5949a63e56c86faf365e317cc433a426a01cb01715eac531d45b48421e58032fdd459eece78fc9060da9dda5fb421ec9a016f3586b55a8180682e8fdf0bd3cbcc514c7440fb61f3d2376bfba7a4e40b497aa2e62825948e79bf2058c910661dcf11e20788a4ee3f00d192b7be8bbf6c05a35287ce8083c4cd790549177eb434376ce55bc512e7157028fc17faa7debd4b7457b4ed2e45ea749718569027f06e22c6560",
+    "https://job-logs.eascdn.net/production/f83cbed6-bdfe-4dcc-99d5-be28a62399c8/1774334869483-785b8dd3-421a-4b89-8889-80997ce43595.txt?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=www-production%40exponentjs.iam.gserviceaccount.com%2F20260324%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20260324T065151Z&X-Goog-Expires=900&X-Goog-SignedHeaders=host&X-Goog-Signature=88ad4674427c98163e24ce980301c0383d4f0b7c75b0f0b83ecbb84a396e056d40bda63de22bcb13910ebb6d318192556c151f1e5b4a593fef522390b121416f05704555ee92b3620155d3ee84625a1d7d676adeb35f3e59e968c01e12a9f9121798827b03a37a1311115f9c6971ff5044d86654f9474819c18c8d0b4df9d39093d7ff5fba67537e39c97406ec9770ed15699efa7ae3b4a6ba8b80fc0d044bc217845d55fa369f29005f6731eeadf8d445fb476bcb75ed4bc2c53bb23150509cf3e75fa565aabdbadd7fad5ed49fd10645312854668f18a56c720180f1af049a69f8b534af159de151d48d90de58a320bc184c4286470d120949f3772b906508"
+  ],
+  "project": {
+    "id": "3a47c2c0-8b18-4f21-8b59-d1cdfa340e98",
+    "name": "pub-diary",
+    "slug": "pub-diary",
+    "ownerAccount": {
+      "id": "9129b6fa-068d-4410-968c-1b6762219009",
+      "name": "seungwon0103"
+    }
+  },
+  "distribution": "INTERNAL",
+  "buildProfile": "development",
+  "sdkVersion": "55.0.0",
+  "appVersion": "0.1.0",
+  "appBuildVersion": "1",
+  "gitCommitHash": "adc7c87cad87e05c8b58a95815cc8d2f5271e0a0",
+  "gitCommitMessage": "create plan",
+  "priority": "NORMAL_PLUS",
+  "createdAt": "2026-03-24T06:47:47.870Z",
+  "updatedAt": "2026-03-24T06:50:36.484Z",
+  "completedAt": "2026-03-24T06:50:31.015Z",
+  "expirationDate": "2026-04-07T06:47:47.904Z",
+  "isForIosSimulator": false,
+  "metrics": {
+    "buildWaitTime": 129,
+    "buildQueueTime": 43333,
+    "buildDuration": 119379
+  }
+}
