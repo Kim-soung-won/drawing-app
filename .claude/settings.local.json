@@ -10,7 +10,8 @@
       "Bash(npx tsc:*)",
       "Bash(npx eas-cli:*)",
       "Bash(python3 -c \"import sys,json; data=json.load\\(sys.stdin\\); [print\\(url\\) for url in data.get\\(''''logFiles'''',[]\\)]\")",
-      "Bash(node -e \"const d=require\\(''''fs''''\\).readFileSync\\(''''/dev/stdin'''',''''utf8''''\\);const j=JSON.parse\\(d\\);j.logFiles.forEach\\(u=>console.log\\(u\\)\\)\")"
+      "Bash(node -e \"const d=require\\(''''fs''''\\).readFileSync\\(''''/dev/stdin'''',''''utf8''''\\);const j=JSON.parse\\(d\\);j.logFiles.forEach\\(u=>console.log\\(u\\)\\)\")",
+      "Bash(adb devices:*)"
     ]
   }
 }

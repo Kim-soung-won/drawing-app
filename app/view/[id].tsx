@@ -7,12 +7,13 @@ import {
   Alert,
   TouchableOpacity,
   ScrollView,
+  useWindowDimensions,
 } from 'react-native';
 import { useRouter, useLocalSearchParams, Stack } from 'expo-router';
-import { Canvas, Path, Skia } from '@shopify/react-native-skia';
+import { Canvas, Path, Rect, Skia } from '@shopify/react-native-skia';
 import { useDiaryStore } from '../../src/stores/diaryStore';
 import { useCanvasStore } from '../../src/stores/canvasStore';
-import { DiaryEntry, DrawingData, Point } from '../../src/types/diary';
+import { DiaryEntry, DrawingData, Page, Point } from '../../src/types/diary';
 import { COLORS } from '../../src/constants/colors';
 
 function buildPath(points: Point[]) {
@@ -39,11 +40,65 @@ function buildPath(points: Point[]) {
   return path;
 }
 
+// 단일 페이지 뷰어 (미리보기 Canvas)
+function PageViewer({ page, coverColor }: { page: Page; coverColor: string }) {
+  const { width: screenWidth, height: screenHeight } = useWindowDimensions();
+  const [canvasSize, setCanvasSize] = useState({ width: 0, height: 0 });
+
+  // 쓰기 화면과 동일한 비율: 전체 화면에서 헤더(56) + 툴바(90) 제외
+  const canvasWidth = screenWidth - 32; // 좌우 padding 16씩
+  const canvasHeight = screenHeight - 56 - 90;
+
+  const w = canvasSize.width || canvasWidth;
+  const h = canvasSize.height || canvasHeight;
+
+  return (
+    <View
+      style={viewerStyles.container}
+      onLayout={(e) =>
+        setCanvasSize({
+          width: e.nativeEvent.layout.width,
+          height: e.nativeEvent.layout.height,
+        })
+      }
+    >
+      <Canvas style={{ width: canvasWidth, height: canvasHeight }}>
+        <Rect x={0} y={0} width={w} height={h} color={coverColor} />
+        {page.strokes.map((stroke) => (
+          <Path
+            key={stroke.id}
+            path={buildPath(stroke.points)}
+            color={stroke.color}
+            style="stroke"
+            strokeWidth={stroke.width}
+            strokeCap="round"
+            strokeJoin="round"
+          />
+        ))}
+      </Canvas>
+    </View>
+  );
+}
+
+const viewerStyles = StyleSheet.create({
+  container: {
+    borderRadius: 12,
+    overflow: 'hidden',
+    borderWidth: 1,
+    borderColor: COLORS.cardBorder,
+    elevation: 2,
+    shadowColor: COLORS.black,
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
+  },
+});
+
 export default function ViewScreen() {
   const router = useRouter();
   const { id } = useLocalSearchParams<{ id: string }>();
   const { entries, deleteEntry, loadDrawing } = useDiaryStore();
-  const { loadStrokes, clear } = useCanvasStore();
+  const { loadFromDrawingData } = useCanvasStore();
 
   const [entry, setEntry] = useState<DiaryEntry | null>(null);
   const [drawing, setDrawing] = useState<DrawingData | null>(null);
@@ -64,7 +119,7 @@ export default function ViewScreen() {
 
   const handleEdit = () => {
     if (drawing) {
-      loadStrokes(drawing.strokes);
+      loadFromDrawingData(drawing);
       router.push(`/write?id=${id}`);
     }
   };
@@ -104,8 +159,20 @@ export default function ViewScreen() {
     );
   }
 
-  const canvasWidth = drawing.canvas.width;
-  const canvasHeight = drawing.canvas.height;
+  // 레거시 포맷(pages 없음) 대응
+  const pages: Page[] =
+    drawing.pages && drawing.pages.length > 0
+      ? drawing.pages
+      : [
+          {
+            id: 'page-legacy',
+            template: 'blank',
+            strokes: (drawing as any).strokes ?? [],
+            redoStack: [],
+          },
+        ];
+
+  const coverColor = drawing.coverColor ?? drawing.canvas.backgroundColor ?? COLORS.canvas;
 
   return (
     <>
@@ -129,31 +196,16 @@ export default function ViewScreen() {
       <ScrollView
         style={styles.container}
         contentContainerStyle={styles.scrollContent}
-        maximumZoomScale={3}
-        minimumZoomScale={0.5}
         showsVerticalScrollIndicator={false}
       >
-        <View style={styles.canvasContainer}>
-          <Canvas
-            style={{
-              width: '100%',
-              aspectRatio: canvasWidth / canvasHeight,
-              backgroundColor: drawing.canvas.backgroundColor,
-            }}
-          >
-            {drawing.strokes.map((stroke) => (
-              <Path
-                key={stroke.id}
-                path={buildPath(stroke.points)}
-                color={stroke.color}
-                style="stroke"
-                strokeWidth={stroke.width}
-                strokeCap="round"
-                strokeJoin="round"
-              />
-            ))}
-          </Canvas>
-        </View>
+        {pages.map((page, idx) => (
+          <View key={page.id} style={styles.pageWrapper}>
+            {pages.length > 1 && (
+              <Text style={styles.pageLabel}>{idx + 1} / {pages.length}</Text>
+            )}
+            <PageViewer page={page} coverColor={coverColor} />
+          </View>
+        ))}
       </ScrollView>
     </>
   );
@@ -166,6 +218,7 @@ const styles = StyleSheet.create({
   },
   scrollContent: {
     padding: 16,
+    gap: 20,
   },
   center: {
     flex: 1,
@@ -177,16 +230,14 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: COLORS.textSecondary,
   },
-  canvasContainer: {
-    borderRadius: 12,
-    overflow: 'hidden',
-    borderWidth: 1,
-    borderColor: COLORS.cardBorder,
-    elevation: 2,
-    shadowColor: COLORS.black,
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 3,
+  pageWrapper: {
+    gap: 8,
+  },
+  pageLabel: {
+    fontSize: 12,
+    color: COLORS.textSecondary,
+    textAlign: 'right',
+    fontWeight: '500',
   },
   headerActions: {
     flexDirection: 'row',

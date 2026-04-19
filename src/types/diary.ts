@@ -13,6 +13,15 @@ export interface Stroke {
   tool: 'pen' | 'eraser';
 }
 
+export type PageTemplate = 'blank' | 'lined' | 'grid' | 'dotted';
+
+export interface Page {
+  id: string;
+  template: PageTemplate;
+  strokes: Stroke[];
+  redoStack: Stroke[];
+}
+
 export interface DrawingData {
   version: number;
   canvas: {
@@ -20,7 +29,8 @@ export interface DrawingData {
     height: number;
     backgroundColor: string;
   };
-  strokes: Stroke[];
+  coverColor: string;
+  pages: Page[];
 }
 
 export interface DiaryEntry {
