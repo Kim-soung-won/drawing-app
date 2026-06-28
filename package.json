@@ -9,11 +9,15 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@expo-google-fonts/nanum-myeongjo": "^0.4.1",
+    "@expo-google-fonts/nanum-pen-script": "^0.4.0",
+    "@expo/vector-icons": "^15.1.1",
     "@shopify/react-native-skia": "2.4.18",
     "expo": "~55.0.8",
     "expo-constants": "~55.0.9",
     "expo-dev-client": "~55.0.18",
     "expo-file-system": "~55.0.11",
+    "expo-font": "^56.0.7",
     "expo-linking": "~55.0.8",
     "expo-router": "~55.0.7",
     "expo-sqlite": "~55.0.11",

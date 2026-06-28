@@ -24,6 +24,17 @@ export const COLORS = {
   dangerLight: '#F5E0E0',
 } as const;
 
+export const SHELL = {
+  rail: '#F4EADB',
+  work: '#FBF3E8',
+  border: '#EBDFCD',
+  borderSoft: '#E3D6C2',
+  iconOff: '#A99E91',
+  sage: '#8FAA86',
+  tint: 'rgba(139,115,85,0.14)',
+  tintSoft: 'rgba(139,115,85,0.10)',
+} as const;
+
 export const PEN_COLORS = [
   '#2C2C2C',
   '#4A3728',

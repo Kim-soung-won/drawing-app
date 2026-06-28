@@ -18,12 +18,15 @@ interface CanvasState {
   pages: Page[];
   currentPageIndex: number;
   coverColor: string;
+  canvasWidth: number;
+  canvasHeight: number;
 
   tool: 'pen' | 'eraser';
   penColor: string;
   penWidth: number;
   eraserWidth: number;
 
+  setCanvasSize: (width: number, height: number) => void;
   addStroke: (stroke: Stroke) => void;
   undo: () => void;
   redo: () => void;
@@ -34,6 +37,7 @@ interface CanvasState {
   loadFromDrawingData: (data: any) => void;
   reset: () => void;
 
+  setCurrentPageTemplate: (template: PageTemplate) => void;
   setTool: (tool: 'pen' | 'eraser') => void;
   toggleTool: () => void;
   setPenColor: (color: string) => void;
@@ -48,11 +52,15 @@ export const useCanvasStore = create<CanvasState>((set) => ({
   pages: [newPage(DEFAULT_TEMPLATE)],
   currentPageIndex: 0,
   coverColor: DEFAULT_COVER,
+  canvasWidth: 0,
+  canvasHeight: 0,
 
   tool: 'pen',
   penColor: PEN_COLORS[0],
   penWidth: CANVAS.pen.defaultWidth,
   eraserWidth: CANVAS.eraser.defaultWidth,
+
+  setCanvasSize: (width, height) => set({ canvasWidth: width, canvasHeight: height }),
 
   addStroke: (stroke) =>
     set((state) => {
@@ -146,6 +154,13 @@ export const useCanvasStore = create<CanvasState>((set) => ({
       pages: [newPage(DEFAULT_TEMPLATE)],
       currentPageIndex: 0,
       coverColor: DEFAULT_COVER,
+    }),
+
+  setCurrentPageTemplate: (template) =>
+    set((state) => {
+      const pages = [...state.pages];
+      pages[state.currentPageIndex] = { ...pages[state.currentPageIndex], template };
+      return { pages };
     }),
 
   setTool: (tool) => set({ tool }),

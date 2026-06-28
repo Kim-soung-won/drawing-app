@@ -3,8 +3,9 @@ import { Rect, Path, Skia } from '@shopify/react-native-skia';
 import { PageTemplate } from '../../types/diary';
 
 const LINE_SPACING = 60;
-const LINE_COLOR = 'rgba(0,0,0,0.07)';
-const MARGIN = 40;
+const LINE_COLOR = 'rgba(139,115,85,0.15)';
+const MARGIN_LINE_X = 60;
+const MARGIN_LINE_COLOR = 'rgba(212,165,116,0.55)';
 
 interface PageBackgroundProps {
   template: PageTemplate;
@@ -14,16 +15,20 @@ interface PageBackgroundProps {
 }
 
 export default function PageBackground({ template, color, width, height }: PageBackgroundProps) {
-  const templatePath = useMemo(() => {
-    if (width === 0 || height === 0) return null;
+  const { templatePath, marginPath } = useMemo(() => {
+    if (width === 0 || height === 0) return { templatePath: null, marginPath: null };
 
     const path = Skia.Path.Make();
 
     if (template === 'lined') {
       for (let y = LINE_SPACING; y < height; y += LINE_SPACING) {
-        path.moveTo(MARGIN, y);
-        path.lineTo(width - MARGIN, y);
+        path.moveTo(MARGIN_LINE_X, y);
+        path.lineTo(width, y);
       }
+      const mPath = Skia.Path.Make();
+      mPath.moveTo(MARGIN_LINE_X, 0);
+      mPath.lineTo(MARGIN_LINE_X, height);
+      return { templatePath: path, marginPath: mPath };
     } else if (template === 'grid') {
       for (let y = LINE_SPACING; y < height; y += LINE_SPACING) {
         path.moveTo(0, y);
@@ -41,7 +46,7 @@ export default function PageBackground({ template, color, width, height }: PageB
       }
     }
 
-    return path;
+    return { templatePath: path, marginPath: null };
   }, [template, width, height]);
 
   return (
@@ -54,6 +59,9 @@ export default function PageBackground({ template, color, width, height }: PageB
           style={template === 'dotted' ? 'fill' : 'stroke'}
           strokeWidth={1.5}
         />
+      )}
+      {marginPath && (
+        <Path path={marginPath} color={MARGIN_LINE_COLOR} style="stroke" strokeWidth={1.5} />
       )}
     </>
   );

@@ -9,12 +9,14 @@ import {
   ScrollView,
   useWindowDimensions,
 } from 'react-native';
-import { useRouter, useLocalSearchParams, Stack } from 'expo-router';
-import { Canvas, Path, Rect, Skia } from '@shopify/react-native-skia';
+import { useRouter, useLocalSearchParams } from 'expo-router';
+import { Feather } from '@expo/vector-icons';
+import { Canvas, Path, Skia } from '@shopify/react-native-skia';
 import { useDiaryStore } from '../../src/stores/diaryStore';
 import { useCanvasStore } from '../../src/stores/canvasStore';
 import { DiaryEntry, DrawingData, Page, Point } from '../../src/types/diary';
-import { COLORS } from '../../src/constants/colors';
+import { COLORS, SHELL } from '../../src/constants/colors';
+import PageBackground from '../../src/components/canvas/PageBackground';
 
 function buildPath(points: Point[]) {
   const path = Skia.Path.Make();
@@ -63,7 +65,7 @@ function PageViewer({ page, coverColor }: { page: Page; coverColor: string }) {
       }
     >
       <Canvas style={{ width: canvasWidth, height: canvasHeight }}>
-        <Rect x={0} y={0} width={w} height={h} color={coverColor} />
+        <PageBackground template={page.template} color={coverColor} width={w} height={h} />
         {page.strokes.map((stroke) => (
           <Path
             key={stroke.id}
@@ -176,23 +178,23 @@ export default function ViewScreen() {
 
   return (
     <>
-      <Stack.Screen
-        options={{
-          title: entry.title || '제목 없음',
-          headerRight: () => (
-            <View style={styles.headerActions}>
-              <TouchableOpacity onPress={handleEdit} style={styles.headerBtn}>
-                <Text style={styles.headerBtnText}>수정</Text>
-              </TouchableOpacity>
-              <TouchableOpacity onPress={handleDelete} style={styles.headerBtn}>
-                <Text style={[styles.headerBtnText, { color: COLORS.danger }]}>
-                  삭제
-                </Text>
-              </TouchableOpacity>
-            </View>
-          ),
-        }}
-      />
+      {/* 커스텀 헤더 */}
+      <View style={styles.topbar}>
+        <TouchableOpacity style={styles.topBtn} onPress={() => router.back()} activeOpacity={0.7}>
+          <Feather name="chevron-left" size={24} color={COLORS.text} />
+        </TouchableOpacity>
+        <Text style={styles.topTitle} numberOfLines={1}>{entry.title || '제목 없음'}</Text>
+        <View style={styles.headerActions}>
+          <TouchableOpacity onPress={handleEdit} style={styles.headerBtn}>
+            <Feather name="edit-2" size={18} color={COLORS.primary} />
+            <Text style={styles.headerBtnText}>수정</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={handleDelete} style={styles.headerBtn}>
+            <Feather name="trash-2" size={18} color={COLORS.danger} />
+            <Text style={[styles.headerBtnText, { color: COLORS.danger }]}>삭제</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
       <ScrollView
         style={styles.container}
         contentContainerStyle={styles.scrollContent}
@@ -212,9 +214,32 @@ export default function ViewScreen() {
 }
 
 const styles = StyleSheet.create({
+  topbar: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    paddingHorizontal: 8,
+    paddingVertical: 10,
+    backgroundColor: COLORS.surface,
+    borderBottomWidth: 1,
+    borderBottomColor: SHELL.border,
+  },
+  topBtn: {
+    width: 40,
+    height: 40,
+    borderRadius: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  topTitle: {
+    flex: 1,
+    fontSize: 17,
+    fontFamily: 'NanumMyeongjo_700Bold',
+    color: COLORS.text,
+  },
   container: {
     flex: 1,
-    backgroundColor: COLORS.background,
+    backgroundColor: SHELL.work,
   },
   scrollContent: {
     padding: 16,
@@ -224,7 +249,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: COLORS.background,
+    backgroundColor: SHELL.work,
   },
   notFound: {
     fontSize: 16,
@@ -241,14 +266,18 @@ const styles = StyleSheet.create({
   },
   headerActions: {
     flexDirection: 'row',
-    gap: 12,
+    gap: 4,
   },
   headerBtn: {
-    paddingHorizontal: 8,
-    paddingVertical: 4,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+    borderRadius: 8,
   },
   headerBtnText: {
-    fontSize: 15,
+    fontSize: 14,
     color: COLORS.primary,
     fontWeight: '500',
   },

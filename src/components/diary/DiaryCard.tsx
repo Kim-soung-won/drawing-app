@@ -30,6 +30,7 @@ export default function DiaryCard({ entry, onPress, onLongPress }: DiaryCardProp
       <View style={styles.thumbnail}>
         {entry.thumbnailPath ? (
           <Image
+            key={String(entry.updatedAt)}
             source={{ uri: entry.thumbnailPath }}
             style={styles.thumbnailImage}
             resizeMode="cover"

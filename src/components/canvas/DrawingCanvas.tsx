@@ -70,11 +70,12 @@ export default function DrawingCanvas() {
     penWidth,
     eraserWidth,
     addStroke,
+    setCanvasSize,
   } = useCanvasStore();
 
   const currentPage = pages[currentPageIndex];
 
-  const [canvasSize, setCanvasSize] = useState({ width: 0, height: 0 });
+  const [canvasSize, setLocalCanvasSize] = useState({ width: 0, height: 0 });
 
   // UI 스레드에서 직접 업데이트되는 live 좌표 — JS 브릿지 없음
   const liveCoords = useSharedValue<number[]>([]);
@@ -187,12 +188,11 @@ export default function DrawingCanvas() {
     <GestureDetector gesture={gesture}>
       <View
         style={styles.container}
-        onLayout={(e) =>
-          setCanvasSize({
-            width: e.nativeEvent.layout.width,
-            height: e.nativeEvent.layout.height,
-          })
-        }
+        onLayout={(e) => {
+          const { width, height } = e.nativeEvent.layout;
+          setLocalCanvasSize({ width, height });
+          setCanvasSize(width, height);
+        }}
       >
         <Canvas style={styles.canvas}>
           {/* 레이어 1: 배경 — 항상 고정 */}
